@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Market Dashboard - Chile</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-primary: #00f2fe;
+            --accent-secondary: #4facfe;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(17, 24, 39, 0.8) 0, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(79, 172, 254, 0.1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(0, 242, 254, 0.1) 0, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        header {
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 25, 0.8);
+        }
+
+        .logo-area h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-area p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #0b0f19;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+        }
+
+        main {
+            padding: 2rem 4rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+        }
+
+        .filter-select {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .filter-select:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 242, 254, 0.1);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            color: #fff;
+        }
+
+        .card-rut {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-sector {
+            background: rgba(79, 172, 254, 0.15);
+            color: var(--accent-secondary);
+            border: 1px solid rgba(79, 172, 254, 0.3);
+        }
+
+        .badge-location {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .badge-branches {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .card-body {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .process-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .process-text {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+        }
+
+        .opp-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .opp-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .opp-control .opp-title { color: #f59e0b; }
+        .opp-inst .opp-title { color: #00f2fe; }
+        .opp-elec .opp-title { color: #a855f7; }
+
+        .opp-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--card-border);
+            padding-top: 1rem;
+            margin-top: auto;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .contact-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #0b0f19;
+            border-color: transparent;
+            transform: scale(1.1);
+        }
+
+        .odoo-view {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .odoo-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1000px) {
+            .odoo-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .odoo-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .odoo-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .odoo-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .step-num {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #0b0f19;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+        }
+
+        .step-text h4 {
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: #fff;
+        }
+
+        .step-text p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .code-block {
+            background: #060913;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #10b981;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mapping-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .mapping-table th, .mapping-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .mapping-table th {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .mapping-table td {
+            color: var(--text-main);
+        }
+
+        .cen-view {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cen-table-container {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .cen-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cen-table th, .cen-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .cen-table th {
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--accent-primary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        .cen-table tr:hover {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .cen-table td {
+            font-size: 0.9rem;
+        }
+
+        .badge-cen {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-gen { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-trans { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-dist { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-free { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .stat-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--accent-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.3rem;
+        }
+
+        .stat-info h5 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <h1>CHILE INDUSTRIAL CONNECTOR</h1>
+            <p>Visor Inteligente de Ventas & Mercado CEN</p>
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('proceso')"><i class="fa-solid fa-industry"></i> Medianas de Proceso</button>
+            <button class="tab-btn" onclick="switchTab('cen')"><i class="fa-solid fa-bolt"></i> Coordinados CEN</button>
+            <button class="tab-btn" onclick="switchTab('odoo')"><i class="fa-solid fa-cloud-arrow-up"></i> Exportación Odoo</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- STATS BANNER -->
+        <div class="stat-banner" id="stats-banner">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-building"></i></div>
+                <div class="stat-info">
+                    <h5>Empresas de Proceso</h5>
+                    <h3 id="stat-proceso-count">11</h3>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #c084fc; background: rgba(168, 85, 247, 0.1);"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-info">
+                    <h5>Coordinados CEN</h5>
+                    <h3 id="stat-cen-count">38</h3>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);"><i class="fa-solid fa-lightbulb"></i></div>
+                <div class="stat-info">
+                    <h5>Oportunidades Control</h5>
+                    <h3 id="stat-control-count">11</h3>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);"><i class="fa-solid fa-location-dot"></i></div>
+                <div class="stat-info">
+                    <h5>Regiones Cubiertas</h5>
+                    <h3 id="stat-regions-count">6</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROCESS COMPANIES VIEW -->
+        <div id="proceso-view" class="active-view">
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-proceso" placeholder="Buscar por nombre, RUT, proceso u oportunidad..." onkeyup="filterProceso()">
+                </div>
+                <select id="filter-sector" class="filter-select" onchange="filterProceso()">
+                    <option value="">Todos los Sectores</option>
+                    <option value="Siderúrgica y Metalmecánica">Siderúrgica & Metalmecánica</option>
+                    <option value="Cemento, Cal y Materiales">Cemento & Cal</option>
+                    <option value="Alimentos y Bebidas">Alimentos & Bebidas</option>
+                    <option value="Química, Petroquímica y Gases">Química & Gases</option>
+                    <option value="Celulosa, Papel y Vidrio">Celulosa, Papel & Vidrio</option>
+                </select>
+                <select id="filter-region" class="filter-select" onchange="filterProceso()">
+                    <option value="">Todas las Regiones</option>
+                    <option value="Biobío">Región del Biobío</option>
+                    <option value="Metropolitana">Región Metropolitana</option>
+                    <option value="Valparaíso">Región de Valparaíso</option>
+                    <option value="Antofagasta">Región de Antofagasta</option>
+                    <option value="Maule">Región del Maule</option>
+                    <option value="Los Ríos">Región de Los Ríos</option>
+                </select>
+            </div>
+
+            <div class="grid-container" id="proceso-grid">
+                <!-- Javascript will populate this -->
+            </div>
+        </div>
+
+        <!-- CEN COORDINATED VIEW -->
+        <div id="cen-view" class="cen-view">
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-cen" placeholder="Buscar coordinado por Razón Social, RUT o Sigla..." onkeyup="filterCen()">
+                </div>
+                <select id="filter-cen-cat" class="filter-select" onchange="filterCen()">
+                    <option value="">Todas las Categorías</option>
+                    <option value="Generación">Generadoras</option>
+                    <option value="Transmisión">Transmisoras</option>
+                    <option value="Distribución">Distribuidoras</option>
+                    <option value="Cliente Libre">Clientes Libres</option>
+                </select>
+            </div>
+
+            <div class="cen-table-container">
+                <table class="cen-table">
+                    <thead>
+                        <tr>
+                            <th>Categoría CEN</th>
+                            <th>Razón Social</th>
+                            <th>Sigla</th>
+                            <th>RUT</th>
+                            <th>Oportunidad Comercial Principal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cen-table-body">
+                        <!-- Javascript will populate this -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ODOO INTEGRATION GUIDE -->
+        <div id="odoo-view" class="odoo-view">
+            <div class="odoo-container">
+                <!-- Left panel: Guide -->
+                <div class="odoo-card">
+                    <h3><i class="fa-solid fa-rocket" style="color: var(--accent-primary);"></i> Importación a Odoo ERP</h3>
+                    <p>La base de datos en formato CSV que hemos construido está lista para importarse en el módulo de <strong>CRM</strong> o <strong>Contactos</strong> de Odoo. Aquí tienes la guía paso a paso y la correspondencia de campos recomendada:</p>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-num">1</div>
+                            <div class="step-text">
+                                <h4>Descarga el archivo CSV</h4>
+                                <p>Utiliza el archivo <code>base_empresas_procesos_chile.csv</code> generado en la carpeta.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">2</div>
+                            <div class="step-text">
+                                <h4>Ir a Odoo CRM</h4>
+                                <p>Entra a Odoo > CRM o Contactos, haz clic en <strong>Favoritos</strong> > <strong>Importar registros</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-num">3</div>
+                            <div class="step-text">
+                                <h4>Subir y mapear campos</h4>
+                                <p>Sube el archivo y mapea las columnas. Para evitar crear campos personalizados en Odoo, te sugerimos mapear el contenido técnico al campo <strong>Descripción (Notas internas)</strong>, o crear campos personalizados tipo texto.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="mapping-table">
+                        <thead>
+                            <tr>
+                                <th>Columna CSV</th>
+                                <th>Campo Sugerido en Odoo</th>
+                                <th>Tipo de Campo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Empresa</td>
+                                <td>Compañía / Nombre (name)</td>
+                                <td>Estándar</td>
+                            </tr>
+                            <tr>
+                                <td>RUT</td>
+                                <td>RUT (vat)</td>
+                                <td>Estándar</td>
+                            </tr>
+                            <tr>
+                                <td>Pagina_Web</td>
+                                <td>Sitio Web (website)</td>
+                                <td>Estándar</td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>Correo Electrónico (email)</td>
+                                <td>Estándar</td>
+                            </tr>
+                            <tr>
+                                <td>Sector</td>
+                                <td>Categoría / Etiquetas (x_sector)</td>
+                                <td>Etiqueta o Texto</td>
+                            </tr>
+                            <tr>
+                                <td>Proceso_Critico, Oportunidad_...</td>
+                                <td>Descripción / Notas (description)</td>
+                                <td>Texto Multilínea</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Right panel: Automated Script -->
+                <div class="odoo-card">
+                    <h3><i class="fa-brands fa-python" style="color: #10b981;"></i> Script Automatizado de Sincronización</h3>
+                    <p>Si deseas automatizar la subida de estos prospectos directamente a Odoo mediante su API XML-RPC oficial sin pasar por la interfaz web, ejecuta este script en Python. Creará un lead en el CRM para cada empresa:</p>
+                    
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode()"><i class="fa-regular fa-copy"></i> Copiar Código</button>
+                        <pre id="python-code">
+import csv
+import xmlrpc.client
+
+# ---- CONFIGURACIÓN ODOO ----
+ODOO_URL = "https://tu-base-odoo.odoo.com"
+ODOO_DB = "nombre_base_datos"
+USERNAME = "tu_usuario@email.com"
+API_KEY = "tu_token_o_password"
+
+# 1. Conexión y Autenticación con Odoo API
+print("Conectando a Odoo...")
+common = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/common")
+uid = common.authenticate(ODOO_DB, USERNAME, API_KEY, {})
+if not uid:
+    print("Error de autenticación. Verifica tus credenciales.")
+    exit()
+print(f"Autenticado con éxito. UID: {uid}")
+
+models = xmlrpc.client.ServerProxy(f"{ODOO_URL}/xmlrpc/2/object")
+
+# 2. Leer base de datos CSV de empresas
+with open('base_empresas_procesos_chile.csv', mode='r', encoding='utf-8') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        # Generar descripción rica para el lead
+        desc = (
+            f"RUT: {row['RUT']}\n"
+            f"Sector: {row['Sector']}\n"
+            f"Región/Comuna: {row['Region']}, {row['Comuna']}\n"
+            f"Proceso Crítico: {row['Proceso_Critico']}\n\n"
+            f"OPORTUNIDADES DE VENTA:\n"
+            f"- CONTROL: {row['Oportunidad_Control']}\n"
+            f"- INSTRUMENTACIÓN: {row['Oportunidad_Instrumentacion']}\n"
+            f"- ELÉCTRICA: {row['Oportunidad_Electrica']}\n\n"
+            f"Contacto: {row['Email']} | LinkedIn: {row['LinkedIn']}\n"
+            f"Sucursales físicas: {row['Sucursales']}"
+        )
+        
+        # Crear Lead en CRM de Odoo
+        lead_data = {
+            'name': f"Prospección SUPCON: {row['Empresa']}",
+            'partner_name': row['Empresa'],
+            'email_from': row['Email'],
+            'website': row['Pagina_Web'],
+            'description': desc,
+            'type': 'lead'
+        }
+        
+        lead_id = models.execute_kw(
+            ODOO_DB, uid, API_KEY, 
+            'crm.lead', 'create', [lead_data]
+        )
+        print(f"Lead creado exitosamente para {row['Empresa']} (ID: {lead_id})")
+
+print("Sincronización finalizada exitosamente.")
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DATA OBJECTS
+        const empresasProcesos = [
+            {
+                id: 1,
+                nombre: "Industrias Chilenas de Alambre S.A. (Inchalam S.A.)",
+                rut: "90.012.000-K",
+                sector: "Siderúrgica y Metalmecánica",
+                region: "Biobío",
+                comuna: "Talcahuano",
+                sucursales: 3,
+                proceso: "Trefilado de alambre de acero de alta y baja resistencia, decapado químico, galvanizado por inmersión en caliente, y fabricación de mallas, clavos y cercos.",
+                oppControl: "Lazos de control PID para hornos de recocido; control de velocidad en bobinadores de alambre mediante PLC/HMI; sistemas SCADA.",
+                oppInst: "Sensores de pH y conductividad para decapado; termocuplas de alta temperatura para crisoles de zinc fundido; flujómetros magnéticos.",
+                oppElec: "Variadores de frecuencia (VFD) para trefiladoras; tableros de transferencia y distribución; motores de alta eficiencia.",
+                web: "https://www.inchalam.cl",
+                linkedin: "https://www.linkedin.com/company/inchalam/",
+                email: "contacto@inchalam.cl"
+            },
+            {
+                id: 2,
+                nombre: "Moly-Cop Chile S.A.",
+                rut: "96.533.220-4",
+                sector: "Siderúrgica y Metalmecánica",
+                region: "Biobío",
+                comuna: "Talcahuano",
+                sucursales: 3,
+                proceso: "Fabricación de bolas de acero forjadas para molienda en minería. Procesos de calentamiento por inducción, templado rápido por inmersión en agua y tratamiento térmico de alivio.",
+                oppControl: "Integración de hornos de inducción con PLCs; algoritmos de control de temple; sistemas SCADA centralizados.",
+                oppInst: "Pirómetros ópticos e infrarrojos para hornos de inducción; transmisores de presión y flujómetros para líneas de templado.",
+                oppElec: "Variadores de frecuencia de alta potencia; celdas de media tensión; sistemas de filtrado de armónicos por inducción.",
+                web: "https://www.molycop.cl",
+                linkedin: "https://www.linkedin.com/company/molycop-chile/",
+                email: "ventas@molycop.cl"
+            },
+            {
+                id: 3,
+                nombre: "Aceros AZA S.A.",
+                rut: "96.902.930-1",
+                sector: "Siderúrgica y Metalmecánica",
+                region: "Metropolitana",
+                comuna: "Colina",
+                sucursales: 4,
+                proceso: "Acería basada en horno de arco eléctrico (EAF) y laminación continua de barras de refuerzo, perfiles y alambrón.",
+                oppControl: "PLC para trenes de laminación con sincronización de velocidad; control del electrodo del EAF; integración SCADA con MES.",
+                oppInst: "Transmisores de presión diferencial para filtros de mangas; termocuplas tipo B y S para acero líquido; sensores de caudal de refrigeración.",
+                oppElec: "Transformadores de horno; bancos de capacitores activos; VFDs de gran capacidad para motores de laminación.",
+                web: "https://www.aza.cl",
+                linkedin: "https://www.linkedin.com/company/aceros-aza-s-a-/",
+                email: "contacto@aza.cl"
+            },
+            {
+                id: 4,
+                nombre: "Cementos Bío Bío S.A. (Cbb)",
+                rut: "90.065.000-9",
+                sector: "Cemento, Cal y Materiales",
+                region: "Biobío",
+                comuna: "Talcahuano",
+                sucursales: 20,
+                proceso: "Calcinación en hornos rotatorios horizontales a 1.450°C para la producción de clínker y hornos verticales para cal hidratada. Molienda final y ensacado.",
+                oppControl: "DCS para la dosificación y control de la combustión del horno; control multivariable de molinos de bolas; arquitecturas SCADA remotas.",
+                oppInst: "Medidores de nivel tipo radar para silos de clinker; pirómetros e inclinómetros para hornos; analizadores de gases en chimeneas (CO, O2, NO).",
+                oppElec: "Arrancadores suaves y VFDs para ventiladores de tiro inducido; celdas de media tensión; motores síncronos de alta potencia.",
+                web: "https://www.cbb.cl",
+                linkedin: "https://www.linkedin.com/company/cementos-bio-bio/",
+                email: "contacto@cbb.cl"
+            },
+            {
+                id: 5,
+                nombre: "Cemento Melón S.A.",
+                rut: "90.082.000-1",
+                sector: "Cemento, Cal y Materiales",
+                region: "Valparaíso",
+                comuna: "La Calera",
+                sucursales: 30,
+                proceso: "Molienda y mezcla de clínker, yeso y puzolana. Producción de morteros listos para usar y hormigón premezclado.",
+                oppControl: "Migración de PLCs legacy; modernización de terminales de pesaje automáticos integrados con sistemas ERP; SCADA de ensacadoras.",
+                oppInst: "Balanzas integradoras y pesómetros de cinta; sensores de vibración para rodamientos de molino; celdas de carga en silos.",
+                oppElec: "Tableros de distribución de fuerza y alumbrado; variadores de frecuencia para dosificadores de balanza.",
+                web: "https://www.melon.cl",
+                linkedin: "https://www.linkedin.com/company/melon-sa/",
+                email: "contacto@melon.cl"
+            },
+            {
+                id: 6,
+                nombre: "Sugal Chile S.A.",
+                rut: "96.953.940-7",
+                sector: "Alimentos y Bebidas",
+                region: "Maule",
+                comuna: "Talca",
+                sucursales: 2,
+                proceso: "Concentración térmica en evaporadores multietapa de vacío, pasteurización flash y envasado aséptico de pulpa de tomate y frutas.",
+                oppControl: "Lazos de control PID críticos para temperatura de pasteurización; control de nivel analógico en evaporadores; automatización de CIP.",
+                oppInst: "Flujómetros electromagnéticos sanitarios; transmisores de presión diferencial de vacío; sensores de temperatura sanitarios de inserción rápida.",
+                oppElec: "Motores eléctricos con protección IP69K; VFDs para bombas de pulpa; canalizaciones herméticas de acero inoxidable.",
+                web: "https://www.sugal-group.com",
+                linkedin: "https://www.linkedin.com/company/sugal-chile/",
+                email: "contacto@sugal-group.com"
+            },
+            {
+                id: 7,
+                nombre: "Lechera Colun",
+                rut: "82.520.100-3",
+                sector: "Alimentos y Bebidas",
+                region: "Los Ríos",
+                comuna: "La Unión",
+                sucursales: 13,
+                proceso: "Pasteurización de leche, evaporación para producción de leche en polvo, elaboración de quesos y yogurt, envasado UHT automatizado.",
+                oppControl: "Sistemas DCS y PLCs redundantes para salas de leche; software de recetas Batch (S88); control de humedad en secadores spray.",
+                oppInst: "Conductivímetros sanitarios para retorno de CIP; medidores de flujo Coriolis para grasa láctea; sensores de nivel en silos.",
+                oppElec: "Variadores de frecuencia para bombas sanitarias; CCMs inteligentes (Centros de Control de Motores); redes Profinet/EthernetIP.",
+                web: "https://www.colun.cl",
+                linkedin: "https://www.linkedin.com/company/colun/",
+                email: "contacto@colun.cl"
+            },
+            {
+                id: 8,
+                nombre: "Enaex S.A. (Prillex)",
+                rut: "90.076.000-9",
+                sector: "Química, Petroquímica y Gases",
+                region: "Antofagasta",
+                comuna: "Mejillones",
+                sucursales: 7,
+                proceso: "Síntesis química de ácido nítrico mediante combustión catalítica de amoniaco, neutralización para producir nitrato de amonio líquido y perlado.",
+                oppControl: "Sistemas Instrumentados de Seguridad (SIS) certificados SIL3 (redundancia TMR); DCS continuos para reactores químicos.",
+                oppInst: "Transmisores de temperatura y presión con certificación intrínsecamente segura (Ex i) y antideflagrante (Ex d); detectores de fuga.",
+                oppElec: "Sistemas UPS industriales redundantes; tableros eléctricos bajo normas de áreas peligrosas; bandejas porta-cables anticorrosión.",
+                web: "https://www.enaex.com",
+                linkedin: "https://www.linkedin.com/company/enaex/",
+                email: "contacto@enaex.com"
+            },
+            {
+                id: 9,
+                nombre: "Oxiquim S.A.",
+                rut: "90.280.000-8",
+                sector: "Química, Petroquímica y Gases",
+                region: "Biobío",
+                comuna: "Coronel",
+                sucursales: 5,
+                proceso: "Fabricación de resinas de formaldehído, urea y fenol en reactores Batch encamisados. Terminales de almacenamiento criogénico de gas y bombeo a presión.",
+                oppControl: "SIS (Fuego y Gas) para terminales de almacenamiento; SCADA HMI con pantallas de seguridad integradas; automatización de reactores.",
+                oppInst: "Sensores de temperatura multipunto en reactores; medidores de nivel tipo radar para estanques inflamables; instrumentación SIL2.",
+                oppElec: "Motores A Prueba de Explosión (XP); barreras de aislamiento intrínseco; tableros neumáticos y de control.",
+                web: "https://www.oxiquim.com",
+                linkedin: "https://www.linkedin.com/company/oxiquim-s.a./",
+                email: "contacto@oxiquim.com"
+            },
+            {
+                id: 10,
+                nombre: "Papeles Bío Bío S.A.",
+                rut: "76.012.390-3",
+                sector: "Celulosa, Papel y Vidrio",
+                region: "Biobío",
+                comuna: "San Pedro de la Paz",
+                sucursales: 1,
+                proceso: "Producción de papel periódico a partir de pulpa termomecánica (TMP). Refinación de madera, blanqueamiento, formación en máquina y secado continuo.",
+                oppControl: "DCS para el control del refino mecánico; control de lazo cerrado para la humedad y peso base en la máquina de papel (QCS).",
+                oppInst: "Transmisores de consistencia de pulpa; transmisores de presión diferencial para líneas de vapor; sensores de pH y redox.",
+                oppElec: "Motores de media tensión para refinadores de astillas (hasta 10 MW); variadores de frecuencia multieje para alineación de rodillos.",
+                web: "https://www.papelesbiobio.cl",
+                linkedin: "https://www.linkedin.com/company/papeles-bio-bio/",
+                email: "contacto@papelesbiobio.cl"
+            },
+            {
+                id: 11,
+                nombre: "Vidrios Lirquén S.A.",
+                rut: "90.340.000-3",
+                sector: "Celulosa, Papel y Vidrio",
+                region: "Biobío",
+                comuna: "Penco",
+                sucursales: 2,
+                proceso: "Fabricación de vidrio plano mediante proceso Float. Fusión de arena y óxidos en horno regenerativo a 1.600°C, enfriamiento lento y corte robotizado.",
+                oppControl: "DCS continuo para control de combustión de horno Float; lazos cerrados de presión y tiro; automatización PLC en líneas de corte.",
+                oppInst: "Termocuplas de platino de alta resistencia; termómetros infrarrojos de banda estrecha; caudalímetros Coriolis para gas combustible.",
+                oppElec: "VFDs para ventiladores de combustión y enfriamiento; transformadores de distribución para calentamiento eléctrico del estaño; UPS de potencia.",
+                web: "https://www.vidrioslirquen.cl",
+                linkedin: "https://www.linkedin.com/company/vidrios-lirquen-sa/",
+                email: "contacto@vidrioslirquen.cl"
+            }
+        ];
+
+        const empresasCen = [
+            { categoria: "Generación", razonSocial: "Enel Generación Chile S.A.", sigla: "ENELGEN", rut: "96.505.510-3", opp: "Modernización de DCS Hidro/Térmico y PPC Solar" },
+            { categoria: "Generación", razonSocial: "Colbún S.A.", sigla: "COLBUN", rut: "90.062.000-2", opp: "Controladores de Planta (PPC), BESS EMS, DCS Hidro" },
+            { categoria: "Generación", razonSocial: "AES Andes S.A.", sigla: "AESANDES", rut: "96.824.000-9", opp: "Sistemas BESS EMS de gran escala, DCS Térmico" },
+            { categoria: "Generación", razonSocial: "Engie Energía Chile S.A.", sigla: "ENGIE", rut: "90.160.000-5", opp: "BESS EMS y modernización de control de turbinas" },
+            { categoria: "Generación", razonSocial: "Prime Energía SpA", sigla: "PRIME", rut: "76.438.490-6", opp: "RTUs y SAS para centrales de respaldo distribuidas" },
+            { categoria: "Generación", razonSocial: "Guacolda Energía S.A.", sigla: "GUACOLDA", rut: "96.671.040-7", opp: "DCS Térmico de calderas de carbón en Huasco" },
+            { categoria: "Generación", razonSocial: "Pacific Hydro Chile S.A.", sigla: "PACHYDRO", rut: "96.963.090-0", opp: "DCS e integraciones de centrales de pasada" },
+            { categoria: "Generación", razonSocial: "Statkraft Chile S.A.", sigla: "STATKRAFT", rut: "76.027.653-K", opp: "Controladores y SAS en centrales hidro/eólicas" },
+            { categoria: "Generación", razonSocial: "Acciona Energía Chile S.A.", sigla: "ACCIONA", rut: "96.790.660-7", opp: "Sistemas PPC y supervisión SCADA solar/eólica" },
+            { categoria: "Transmisión", razonSocial: "Transelec S.A.", sigla: "TRANSELEC", rut: "96.815.190-1", opp: "Automatización de Subestaciones (SAS), RTUs IEC 61850" },
+            { categoria: "Transmisión", razonSocial: "ISA Interchile S.A.", sigla: "INTERCHILE", rut: "76.241.970-2", opp: "Pasarelas de comunicación, RTUs y SCADA de transmisión" },
+            { categoria: "Transmisión", razonSocial: "Celeo Redes Chile SpA", sigla: "CELEO", rut: "76.082.910-K", opp: "SAS, RTUs y servicios de integración eléctrica" },
+            { categoria: "Transmisión", razonSocial: "CGE Transmisión S.A.", sigla: "CGETRANS", rut: "76.541.910-K", opp: "Equipamiento eléctrico de subestación, RTUs zonales" },
+            { categoria: "Transmisión", razonSocial: "Enel Transmisión Chile S.A.", sigla: "ENELTRANS", rut: "96.806.990-3", opp: "Celdas de MT, reconectadores, pasarelas de comunicación" },
+            { categoria: "Distribución", razonSocial: "CGE S.A.", sigla: "CGE", rut: "76.411.321-K", opp: "SCADA de distribución, reconectadores remotos" },
+            { categoria: "Distribución", razonSocial: "Enel Distribución Chile S.A.", sigla: "ENELDIST", rut: "96.807.000-6", opp: "Medidores inteligentes, tableros de distribución" },
+            { categoria: "Distribución", razonSocial: "Chilquinta Distribución S.A.", sigla: "CHILQUINTA", rut: "96.813.520-5", opp: "Sistemas SCADA de distribución, RTUs de subestación" },
+            { categoria: "Distribución", razonSocial: "Saesa", sigla: "SAESA", rut: "90.067.000-K", opp: "Integración eléctrica rural, sistemas SCADA" },
+            { categoria: "Cliente Libre", razonSocial: "Industrias Chilenas de Alambre S.A.", sigla: "INCHALAM", rut: "90.012.000-K", opp: "Control de trefilas, instrumentación química, VFDs" },
+            { categoria: "Cliente Libre", razonSocial: "Moly-Cop Chile S.A.", sigla: "MOLYCOP", rut: "96.533.220-4", opp: "Pirómetros hornos inducción, control de temple, VFDs" },
+            { categoria: "Cliente Libre", razonSocial: "Aceros AZA S.A.", sigla: "AZA", rut: "96.902.930-1", opp: "Control de hornos de arco (EAF), tren de laminación" },
+            { categoria: "Cliente Libre", razonSocial: "Cementos Bío Bío S.A.", sigla: "CBB", rut: "90.065.000-9", opp: "Radares de nivel en silos, DCS de horno rotatorio" },
+            { categoria: "Cliente Libre", razonSocial: "Cemento Melón S.A.", sigla: "MELON", rut: "90.082.000-1", opp: "Pesómetros de cinta, lazos de control de dosificación" },
+            { categoria: "Cliente Libre", razonSocial: "Cemento Polpaico S.A.", sigla: "POLPAICO", rut: "90.090.000-5", opp: "Analizadores de combustión de horno, control de molinos" },
+            { categoria: "Cliente Libre", razonSocial: "Celulosa Arauco y Constitución S.A.", sigla: "ARAUCO", rut: "93.450.000-3", opp: "DCS continuo, caldera de recuperación, SAS subestaciones" },
+            { categoria: "Cliente Libre", razonSocial: "CMPC Celulosa S.A.", sigla: "CMPC", rut: "90.158.000-8", opp: "Control de procesos en digestor, turbogenerador, QCS" },
+            { categoria: "Cliente Libre", razonSocial: "Sugal Chile S.A.", sigla: "SUGAL", rut: "96.953.940-7", opp: "Flujómetros sanitarios, control PID pasteurizadores" },
+            { categoria: "Cliente Libre", razonSocial: "Soprole S.A.", sigla: "SOPROLE", rut: "90.170.000-1", opp: "Control Batch (S88), conductivímetros sanitarios, CIP" },
+            { categoria: "Cliente Libre", razonSocial: "Nestlé Chile S.A.", sigla: "NESTLE", rut: "90.021.000-9", opp: "DCS evaporador, instrumentación higiénica, SCADA" },
+            { categoria: "Cliente Libre", razonSocial: "Carozzi S.A.", sigla: "CAROZZI", rut: "80.019.200-9", opp: "Control de extrusoras, dosificación en silos, PLCs" },
+            { categoria: "Cliente Libre", razonSocial: "Agrosuper S.A.", sigla: "AGROSUPER", rut: "91.077.000-1", opp: "Monitoreo túneles frío, PLCs compresores de amoniaco" },
+            { categoria: "Cliente Libre", razonSocial: "Enaex S.A.", sigla: "ENAEX", rut: "90.076.000-9", opp: "SIS SIL3 de emergencia reactores, transmisores Ex" },
+            { categoria: "Cliente Libre", razonSocial: "Oxiquim S.A.", sigla: "OXIQUIM", rut: "90.280.000-8", opp: "Radar estanques de solventes, SIS Fuego y Gas, motores XP" },
+            { categoria: "Cliente Libre", razonSocial: "Vidrios Lirquén S.A.", sigla: "LIRQUEN", rut: "90.340.000-3", opp: "Pirómetros de horno Float, DCS de combustión" },
+            { categoria: "Cliente Libre", razonSocial: "Cristalerías de Chile S.A.", sigla: "CRISTALCHILE", rut: "90.070.000-3", opp: "Control temperatura de hornos de vidrio, PLCs" },
+            { categoria: "Cliente Libre", razonSocial: "Molibdenos y Metales S.A.", sigla: "MOLYMET", rut: "90.270.000-3", opp: "Analizadores de chimenea ácida, DCS de hornos" },
+            { categoria: "Cliente Libre", razonSocial: "Methanex Chile S.A.", sigla: "METHANEX", rut: "96.721.230-3", opp: "DCS y SIS SIL3 planta de metanol Cabo Negro" },
+            { categoria: "Cliente Libre", razonSocial: "Empresa Nacional del Petróleo", sigla: "ENAP", rut: "90.210.000-3", opp: "DCS y SIS SIL3 reactores craqueo catalítico" }
+        ];
+
+        // RENDER FUNCTIONS
+        function renderProceso(data = empresasProcesos) {
+            const container = document.getElementById("proceso-grid");
+            container.innerHTML = "";
+
+            data.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "card";
+                card.innerHTML = `
+                    <div>
+                        <span class="badge badge-sector">${item.sector}</span>
+                        <div class="card-header">
+                            <h3 class="card-title">${item.nombre}</h3>
+                            <div class="card-rut">RUT: ${item.rut}</div>
+                            <span class="badge badge-location"><i class="fa-solid fa-map-pin"></i> ${item.comuna}, ${item.region}</span>
+                            <span class="badge badge-branches"><i class="fa-solid fa-code-branch"></i> ${item.sucursales} sucursal(es)</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="process-title">Proceso Productivo</div>
+                            <p class="process-text">${item.proceso}</p>
+                            
+                            <div class="opp-box opp-control">
+                                <div class="opp-title"><i class="fa-solid fa-microchip"></i> Control y Automatización</div>
+                                <div class="opp-desc">${item.oppControl}</div>
+                            </div>
+                            <div class="opp-box opp-inst">
+                                <div class="opp-title"><i class="fa-solid fa-gauge"></i> Instrumentación de Procesos</div>
+                                <div class="opp-desc">${item.oppInst}</div>
+                            </div>
+                            <div class="opp-box opp-elec">
+                                <div class="opp-title"><i class="fa-solid fa-plug"></i> Temas Eléctricos / Potencia</div>
+                                <div class="opp-desc">${item.oppElec}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">
+                            <i class="fa-regular fa-envelope"></i> ${item.email}
+                        </div>
+                        <div class="contact-links">
+                            <a href="${item.web}" target="_blank" class="contact-btn" title="Sitio Web"><i class="fa-solid fa-globe"></i></a>
+                            <a href="${item.linkedin}" target="_blank" class="contact-btn" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="mailto:${item.email}" class="contact-btn" title="Enviar Correo"><i class="fa-regular fa-envelope"></i></a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderCen(data = empresasCen) {
+            const body = document.getElementById("cen-table-body");
+            body.innerHTML = "";
+
+            data.forEach(item => {
+                let badgeClass = "badge-free";
+                if (item.categoria === "Generación") badgeClass = "badge-gen";
+                if (item.categoria === "Transmisión") badgeClass = "badge-trans";
+                if (item.categoria === "Distribución") badgeClass = "badge-dist";
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><span class="badge-cen ${badgeClass}">${item.categoria}</span></td>
+                    <td style="font-weight:600; color:#fff;">${item.razonSocial}</td>
+                    <td><code>${item.sigla}</code></td>
+                    <td>${item.rut}</td>
+                    <td style="color:var(--text-muted);">${item.opp}</td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        // TABS SWITCHER
+        function switchTab(tab) {
+            // Update Active Buttons
+            const btns = document.querySelectorAll(".tab-btn");
+            btns.forEach(btn => btn.classList.remove("active"));
+            
+            // Activate target button
+            const activeBtn = Array.from(btns).find(btn => btn.getAttribute("onclick").includes(tab));
+            if (activeBtn) activeBtn.classList.add("active");
+
+            // Hide all views
+            document.getElementById("proceso-view").style.display = "none";
+            document.getElementById("cen-view").style.display = "none";
+            document.getElementById("odoo-view").style.display = "none";
+            document.getElementById("stats-banner").style.display = "flex";
+
+            // Show active view
+            if (tab === 'proceso') {
+                document.getElementById("proceso-view").style.display = "block";
+            } else if (tab === 'cen') {
+                document.getElementById("cen-view").style.display = "block";
+            } else if (tab === 'odoo') {
+                document.getElementById("odoo-view").style.display = "grid";
+                document.getElementById("stats-banner").style.display = "none";
+            }
+        }
+
+        // FILTER FUNCTIONS
+        function filterProceso() {
+            const q = document.getElementById("search-proceso").value.toLowerCase();
+            const sector = document.getElementById("filter-sector").value;
+            const region = document.getElementById("filter-region").value;
+
+            const filtered = empresasProcesos.filter(item => {
+                const matchQ = item.nombre.toLowerCase().includes(q) || 
+                               item.rut.toLowerCase().includes(q) || 
+                               item.proceso.toLowerCase().includes(q) ||
+                               item.oppControl.toLowerCase().includes(q) ||
+                               item.oppInst.toLowerCase().includes(q) ||
+                               item.oppElec.toLowerCase().includes(q);
+                
+                const matchSector = sector === "" || item.sector === sector;
+                const matchRegion = region === "" || item.region === region;
+
+                return matchQ && matchSector && matchRegion;
+            });
+
+            renderProceso(filtered);
+            document.getElementById("stat-proceso-count").innerText = filtered.length;
+        }
+
+        function filterCen() {
+            const q = document.getElementById("search-cen").value.toLowerCase();
+            const cat = document.getElementById("filter-cen-cat").value;
+
+            const filtered = empresasCen.filter(item => {
+                const matchQ = item.razonSocial.toLowerCase().includes(q) || 
+                               item.sigla.toLowerCase().includes(q) || 
+                               item.rut.toLowerCase().includes(q);
+                
+                const matchCat = cat === "" || item.categoria === cat;
+
+                return matchQ && matchCat;
+            });
+
+            renderCen(filtered);
+            document.getElementById("stat-cen-count").innerText = filtered.length;
+        }
+
+        // UTILITIES
+        function copyCode() {
+            const code = document.getElementById("python-code").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector(".copy-btn");
+                btn.innerHTML = '<i class="fa-solid fa-check" style="color:#10b981;"></i> ¡Copiado!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar Código';
+                }, 2000);
+            });
+        }
+
+        // INITIALIZATION
+        window.onload = () => {
+            renderProceso();
+            renderCen();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+Categoria_CEN,Empresa,Sigla,RUT,Oportunidad_Comercial
+Generacion,Enel Generacion Chile S.A.,ENELGEN,96.505.510-3,Modernizacion de DCS Hidro/Termico y PPC Solar
+Generacion,Colbun S.A.,COLBUN,90.062.000-2,Controladores de Planta (PPC) BESS EMS DCS Hidro
+Generacion,AES Andes S.A.,AESANDES,96.824.000-9,Sistemas BESS EMS de gran escala DCS Termico
+Generacion,Engie Energia Chile S.A.,ENGIE,90.160.000-5,BESS EMS y modernizacion de control de turbinas
+Generacion,Prime Energia SpA,PRIME,76.438.490-6,RTUs y SAS para centrales de respaldo distribuidas
+Generacion,Guacolda Energia S.A.,GUACOLDA,96.671.040-7,DCS Termico de calderas de carbon en Huasco
+Generacion,Pacific Hydro Chile S.A.,PACHYDRO,96.963.090-0,DCS e integraciones de centrales de pasada
+Generacion,Statkraft Chile S.A.,STATKRAFT,76.027.653-K,Controladores y SAS en centrales hidro/eolicas
+Generacion,Acciona Energia Chile S.A.,ACCIONA,96.790.660-7,Sistemas PPC y supervision SCADA solar/eolica
+Transmision,Transelec S.A.,TRANSELEC,96.815.190-1,Automatizacion de Subestaciones (SAS) RTUs IEC 61850
+Transmision,ISA Interchile S.A.,INTERCHILE,76.241.970-2,Pasarelas de comunicacion RTUs y SCADA de transmision
+Transmision,Celeo Redes Chile SpA,CELEO,76.082.910-K,SAS RTUs y servicios de integracion electrica
+Transmision,CGE Transmision S.A.,CGETRANS,76.541.910-K,Equipamiento electrico de subestacion RTUs zonales
+Transmision,Enel Transmision Chile S.A.,ENELTRANS,96.806.990-3,Celdas de MT reconectadores pasarelas de comunicacion
+Distribucion,CGE S.A.,CGE,76.411.321-K,SCADA de distribucion reconectadores remotos
+Distribucion,Enel Distribucion Chile S.A.,ENELDIST,96.807.000-6,Medidores inteligentes tableros de distribucion MT/BT
+Distribucion,Chilquinta Distribucion S.A.,CHILQUINTA,96.813.520-5,Sistemas SCADA de distribucion RTUs de subestacion
+Distribucion,Saesa,SAESA,90.067.000-K,Integracion electrica rural sistemas SCADA
+Cliente Libre,Industrias Chilenas de Alambre S.A.,INCHALAM,90.012.000-K,Control de trefilas instrumentacion quimica VFDs
+Cliente Libre,Moly-Cop Chile S.A.,MOLYCOP,96.533.220-4,Pirometros hornos induccion control de temple VFDs
+Cliente Libre,Aceros AZA S.A.,AZA,96.902.930-1,Control de hornos de arco (EAF) tren de laminacion
+Cliente Libre,Cementos Bio Bio S.A.,CBB,90.065.000-9,Radares de nivel en silos DCS de horno rotatorio
+Cliente Libre,Cemento Melon S.A.,MELON,90.082.000-1,Pesometros de cinta lazos de control de dosificacion
+Cliente Libre,Cemento Polpaico S.A.,POLPAICO,90.090.000-5,Analizadores de combustion de horno control de molinos
+Cliente Libre,Celulosa Arauco y Constitucion S.A.,ARAUCO,93.450.000-3,DCS continuo caldera de recuperacion SAS subestaciones
+Cliente Libre,CMPC Celulosa S.A.,CMPC,90.158.000-8,Control de procesos en digestor turbogenerador QCS
+Cliente Libre,Sugal Chile S.A.,SUGAL,96.953.940-7,Flujometros sanitarios control PID pasteurizadores
+Cliente Libre,Soprole S.A.,SOPROLE,90.170.000-1,Control Batch (S88) conductivimetros sanitarios CIP
+Cliente Libre,Nestle Chile S.A.,NESTLE,90.021.000-9,DCS evaporador instrumentacion higienica SCADA
+Cliente Libre,Carozzi S.A.,CAROZZI,80.019.200-9,Control de extrusoras dosificacion en silos PLCs
+Cliente Libre,Agrosuper S.A.,AGROSUPER,91.077.000-1,Monitoreo tuneles frio PLCs compresores de amoniaco
+Cliente Libre,Enaex S.A.,ENAEX,90.076.000-9,SIS SIL3 de emergencia reactores transmisores Ex
+Cliente Libre,Oxiquim S.A.,OXIQUIM,90.280.000-8,Radar estanques de solventes SIS Fuego y Gas motores XP
+Cliente Libre,Vidrios Lirquen S.A.,LIRQUEN,90.340.000-3,Pirometros de horno regenerativo Float DCS de combustion
+Cliente Libre,Cristalerias de Chile S.A.,CRISTALCHILE,90.070.000-3,Control de temperatura de hornos de vidrio PLCs moldeadoras
+Cliente Libre,Molibdenos y Metales S.A.,MOLYMET,90.270.000-3,Analizadores de chimenea acida DCS de hornos tostadores
+Cliente Libre,Methanex Chile S.A.,METHANEX,96.721.230-3,DCS continuo y SIS SIL3 planta de metanol Cabo Negro
+Cliente Libre,Empresa Nacional del Petroleo,ENAP,90.210.000-3,DCS y SIS SIL3 reactores craqueo catalitico refineries
