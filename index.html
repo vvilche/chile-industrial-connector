@@ -1209,9 +1209,15 @@ print("Sincronización finalizada exitosamente.")
         }
 
         // INITIALIZATION
-        window.onload = () => {
+        function init() {
             renderProceso();
             renderCen();
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
+        } else {
+            init();
         }
     </script>
 </body>
