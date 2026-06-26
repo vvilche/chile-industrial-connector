@@ -311,30 +311,30 @@
             }
         }
 
-        .minuta-content h2 {
+        .minuta-content h2, .flow-content h2 {
             font-size: 20px;
             margin: 24px 0 12px 0;
             color: var(--accent-blue);
         }
 
-        .minuta-content h2:first-of-type {
+        .minuta-content h2:first-of-type, .flow-content h2:first-of-type {
             margin-top: 0;
         }
 
-        .minuta-content p {
+        .minuta-content p, .flow-content p {
             margin-bottom: 16px;
             color: var(--text-secondary);
             font-size: 14.5px;
         }
 
-        .minuta-content ul {
+        .minuta-content ul, .flow-content ul {
             margin-bottom: 20px;
             padding-left: 20px;
             color: var(--text-secondary);
             font-size: 14.5px;
         }
 
-        .minuta-content li {
+        .minuta-content li, .flow-content li {
             margin-bottom: 6px;
         }
 
@@ -519,6 +519,7 @@
             border: 1px solid var(--border-color);
             border-radius: 12px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
         }
 
         table {
@@ -725,6 +726,86 @@
             100% { filter: drop-shadow(0 0 1px rgba(16, 185, 129, 0.3)); }
         }
 
+        /* --- TAB 4: PROPUESTA DE FLUJO --- */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 20px 0 30px 0;
+        }
+
+        .flow-card {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .flow-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+        }
+
+        .flow-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .flow-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .flow-card-badge {
+            padding: 2px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .flow-card-badge.rec {
+            background-color: var(--accent-green-glow);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .flow-card-badge.alt {
+            background-color: var(--accent-blue-glow);
+            color: var(--accent-blue);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .flow-spec-list {
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .flow-spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            padding-bottom: 4px;
+        }
+
+        .flow-spec-item .label {
+            color: var(--text-muted);
+        }
+
+        .flow-spec-item .value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -793,6 +874,10 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
                 Inventario Técnico de Activos
             </button>
+            <button class="tab-btn" onclick="switchTab('tab-flow', this)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                Propuesta de Flujo (FC01-CA)
+            </button>
             <button class="tab-btn" onclick="switchTab('tab-minutes', this)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 Minuta Técnica y Comercial
@@ -805,7 +890,6 @@
                 <!-- SVG Network Topology -->
                 <div class="svg-container">
                     <svg viewBox="0 0 850 480" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Background grid/effect -->
                         <defs>
                             <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
                                 <stop offset="0%" stop-color="#131e35" stop-opacity="0.5" />
@@ -815,8 +899,6 @@
                         <rect x="0" y="0" width="850" height="480" fill="url(#bgGlow)" rx="10"/>
 
                         <!-- Network Connections / Lines -->
-                        <!-- Ring Redundante de Switches (DRS) -->
-                        <!-- Closed paths of Ring -->
                         <path d="M 120 180 L 280 180" stroke="#06b6d4" stroke-width="2" />
                         <path d="M 280 180 L 440 180" stroke="#06b6d4" stroke-width="2" />
                         <path d="M 440 180 L 600 180" stroke="#06b6d4" stroke-width="2" />
@@ -834,27 +916,21 @@
                         <line x1="440" y1="180" x2="480" y2="70" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 3" />
                         <line x1="360" y1="70" x2="480" y2="70" stroke="#10b981" stroke-width="2" />
 
-                        <!-- Sub-connections PLCs & Devices -->
-                        <!-- H9 Area -->
+                        <!-- Sub-connections PLCs -->
                         <line x1="120" y1="180" x2="70" y2="120" stroke="#cbd5e1" stroke-width="1.5" />
                         <line x1="70" y1="120" x2="70" y2="60" stroke="#fbbf24" stroke-width="1.5" />
                         <line x1="70" y1="60" x2="30" y2="30" stroke="#f87171" stroke-width="1.2" />
                         <line x1="70" y1="60" x2="110" y2="30" stroke="#f87171" stroke-width="1.2" />
 
-                        <!-- Mills Area -->
                         <line x1="280" y1="340" x2="230" y2="410" stroke="#cbd5e1" stroke-width="1.5" />
                         <line x1="280" y1="340" x2="330" y2="410" stroke="#cbd5e1" stroke-width="1.5" />
 
-                        <!-- Servers Area -->
                         <line x1="360" y1="70" x2="310" y2="20" stroke="#c084fc" stroke-width="1.5" />
                         <line x1="480" y1="70" x2="530" y2="20" stroke="#c084fc" stroke-width="1.5" />
 
-                        <!-- Silos & Envasadoras Area -->
                         <line x1="440" y1="340" x2="440" y2="410" stroke="#cbd5e1" stroke-width="1.5" />
                         <line x1="600" y1="340" x2="600" y2="410" stroke="#cbd5e1" stroke-width="1.5" />
 
-                        <!-- Drawing Nodes (G: Groups) -->
-                        
                         <!-- CORE SWITCHES -->
                         <g class="node pulse-node" onclick="showNodeDetails('sw-core-moxa')">
                             <rect x="330" y="50" width="60" height="36" rx="6" fill="#134e4a" stroke="#10b981" stroke-width="2" />
@@ -866,17 +942,14 @@
                         </g>
 
                         <!-- SWITCHES DE ANILLO (DRS) -->
-                        <!-- Sala Cal Switch -->
                         <g class="node" onclick="showNodeDetails('sw-drs-cal')">
                             <circle cx="600" cy="180" r="22" fill="#0f3b4c" stroke="#06b6d4" stroke-width="2" />
                             <text x="600" y="184" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">SW CAL</text>
                         </g>
-                        <!-- Sala CAS Switch -->
                         <g class="node" onclick="showNodeDetails('sw-drs-cas')">
                             <circle cx="600" cy="340" r="22" fill="#0f3b4c" stroke="#06b6d4" stroke-width="2" />
                             <text x="600" y="344" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">SW CAS</text>
                         </g>
-                        <!-- Other Ring Switches -->
                         <g class="node" onclick="showNodeDetails('sw-drs-h9')">
                             <circle cx="120" cy="180" r="22" fill="#0f3b4c" stroke="#06b6d4" stroke-width="2" />
                             <text x="120" y="184" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">SW H9</text>
@@ -903,12 +976,10 @@
                         </g>
 
                         <!-- PLCs / Controladores -->
-                        <!-- PLC H9 -->
                         <g class="node" onclick="showNodeDetails('plc-h9')">
                             <rect x="35" y="100" width="70" height="30" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5" />
                             <text x="70" y="118" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">PLC H9 (M580)</text>
                         </g>
-                        <!-- Molino 21 & 22 (Quantum) -->
                         <g class="node" onclick="showNodeDetails('plc-m21')">
                             <rect x="195" y="410" width="70" height="30" rx="4" fill="#311010" stroke="#f87171" stroke-width="1.5" />
                             <text x="230" y="428" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">PLC M21 (Quant)</text>
@@ -917,7 +988,6 @@
                             <rect x="295" y="410" width="70" height="30" rx="4" fill="#311010" stroke="#f87171" stroke-width="1.5" />
                             <text x="330" y="428" fill="#f8fafc" font-size="10" font-weight="700" text-anchor="middle">PLC M22 (Quant)</text>
                         </g>
-                        <!-- Silos & Envasadoras -->
                         <g class="node" onclick="showNodeDetails('plc-s3k')">
                             <rect x="405" y="410" width="70" height="30" rx="4" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5" />
                             <text x="440" y="428" fill="#f8fafc" font-size="9" font-weight="700" text-anchor="middle">PLC SILOS 3000</text>
@@ -928,29 +998,24 @@
                         </g>
 
                         <!-- Gateways & Instruments H9 -->
-                        <!-- Link150 -->
                         <g class="node" onclick="showNodeDetails('gw-link150')">
                             <rect x="45" y="45" width="50" height="24" rx="4" fill="#3f2305" stroke="#fbbf24" stroke-width="1.5" />
                             <text x="70" y="60" fill="#f8fafc" font-size="9" font-weight="700" text-anchor="middle">LINK150</text>
                         </g>
-                        <!-- Coriolis PRE -->
                         <g class="node" onclick="showNodeDetails('inst-coriolis-pre')">
                             <circle cx="30" cy="30" r="12" fill="#451a03" stroke="#ef4444" stroke-width="1.5" />
                             <text x="30" y="33" fill="#f8fafc" font-size="8" font-weight="700" text-anchor="middle">C.PRE</text>
                         </g>
-                        <!-- Coriolis ALIM -->
                         <g class="node" onclick="showNodeDetails('inst-coriolis-alim')">
                             <circle cx="110" cy="30" r="12" fill="#451a03" stroke="#ef4444" stroke-width="1.5" />
                             <text x="110" y="33" fill="#f8fafc" font-size="8" font-weight="700" text-anchor="middle">C.ALIM</text>
                         </g>
 
                         <!-- SERVIDORES -->
-                        <!-- Server PXP -->
                         <g class="node" onclick="showNodeDetails('srv-pxp')">
                             <rect x="270" y="5" width="80" height="26" rx="4" fill="#2d154c" stroke="#a78bfa" stroke-width="1.5" />
                             <text x="310" y="21" fill="#f8fafc" font-size="9" font-weight="700" text-anchor="middle">PXP SERVERS</text>
                         </g>
-                        <!-- Server PI Node -->
                         <g class="node" onclick="showNodeDetails('srv-pi')">
                             <rect x="490" y="5" width="80" height="26" rx="4" fill="#2d154c" stroke="#a78bfa" stroke-width="1.5" />
                             <text x="530" y="21" fill="#f8fafc" font-size="9" font-weight="700" text-anchor="middle">PI API-NODE</text>
@@ -1025,7 +1090,136 @@
             </div>
         </div>
 
-        <!-- TAB CONTENT 3: MINUTA Y FICHA -->
+        <!-- TAB CONTENT 3: PROPUESTA DE REEMPLAZO DE FLUJO (FC01-CA) -->
+        <div id="tab-flow" class="tab-content">
+            <div class="panel-card flow-content">
+                <h2 class="panel-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    Propuesta Técnica: Reemplazo de Medidor de Flujo E-T-A FC01-CA
+                </h2>
+                
+                <p>El cliente requiere reemplazar un sensor de flujo gaseoso en una tubería de <strong>1" (DN25)</strong>, con una presión de cámara de <strong>100 mBar</strong>. El medidor original era un **E-T-A FC01-CA** de principio térmico/calorimétrico, el cual sufrió daños físicos mecánicos ("caída de personal"). El fluido transporta **polvo abrasivo (CKD - Cement Kiln Dust) y alta concentración de Cloro corrosivo** a temperatura.</p>
+
+                <div class="alert-box warning">
+                    <div class="alert-title">El Desafío del Proceso (Cloro + CKD + Caídas)</div>
+                    El cloro gaseoso en presencia de humedad es altamente corrosivo para el acero inoxidable standard (316L). El polvo de horno (CKD) se adhiere a los sensores de dispersión térmica, aislándolos y provocando errores de lectura. Además, las sondas de inserción tradicionales que sobresalen de la tubería son muy vulnerables a golpes mecánicos.
+                </div>
+
+                <h2>Alternativas de Solución SUPCON</h2>
+                <p>Presentamos tres soluciones industriales de SUPCON diseñadas específicamente para tolerar la corrosión, la abrasión por CKD y evitar futuras roturas por impactos mecánicos:</p>
+
+                <div class="flow-grid">
+                    <!-- Alternativa 1 -->
+                    <div class="flow-card">
+                        <div class="flow-card-header">
+                            <span class="flow-card-title">Alt 1: Térmico en Línea</span>
+                            <span class="flow-card-badge alt">Equivalente</span>
+                        </div>
+                        <h4 style="color: var(--accent-blue); margin-bottom:10px;">SUPCON Serie SRF-I (1")</h4>
+                        <p style="font-size:13px; margin-bottom:12px;">Medición de dispersión térmica en cuerpo de tubería (in-line) bridadizada. La electrónica se encuentra protegida en una robusta carcasa IP67 de aluminio fundido a prueba de golpes.</p>
+                        <div class="flow-spec-list">
+                            <div class="flow-spec-item"><span class="label">Material de Vaina</span><span class="value" style="color: var(--accent-green);">Hastelloy C-276 / Cerámico</span></div>
+                            <div class="flow-spec-item"><span class="label">Montaje</span><span class="value">En línea 1" (Brida)</span></div>
+                            <div class="flow-spec-item"><span class="label">Sensibilidad Flujo Bajo</span><span class="value">Excelente (desde 0.1 m/s)</span></div>
+                            <div class="flow-spec-item"><span class="label">Salida</span><span class="value">4-20 mA Activo</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Alternativa 2 -->
+                    <div class="flow-card" style="border-color: var(--accent-green); box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);">
+                        <div class="flow-card-header">
+                            <span class="flow-card-title">Alt 2: Presión Diferencial</span>
+                            <span class="flow-card-badge rec">Recomendado</span>
+                        </div>
+                        <h4 style="color: var(--accent-green); margin-bottom:10px;">Venturi 1" + Transmisor CXT</h4>
+                        <p style="font-size:13px; margin-bottom:12px;">Tubo Venturi de acero sólido en la línea (sin partes móviles ni sensores internos) y <strong>Transmisor de Presión Diferencial SUPCON CXT montado de forma remota</strong>, seguro contra impactos.</p>
+                        <div class="flow-spec-list">
+                            <div class="flow-spec-item"><span class="label">Elemento en Línea</span><span class="value" style="color: var(--accent-green);">Tubo Venturi (Acero Sólido)</span></div>
+                            <div class="flow-spec-item"><span class="label">Ubicación del Transmisor</span><span class="value" style="color: var(--accent-green);">Remoto (Protegido de golpes)</span></div>
+                            <div class="flow-spec-item"><span class="label">Resistencia a CKD/Cloro</span><span class="value">Excelente (Sin incrustaciones)</span></div>
+                            <div class="flow-spec-item"><span class="label">Salida</span><span class="value">4-20 mA / HART</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Alternativa 3 -->
+                    <div class="flow-card">
+                        <div class="flow-card-header">
+                            <span class="flow-card-title">Alt 3: Medidor Vortex</span>
+                            <span class="flow-card-badge alt">Alternativo</span>
+                        </div>
+                        <h4 style="color: var(--accent-blue); margin-bottom:10px;">SUPCON Serie SFV-I (1")</h4>
+                        <p style="font-size:13px; margin-bottom:12px;">Caudalímetro Vortex de 1" en línea. No posee piezas móviles y el sensor piezoeléctrico está completamente aislado del fluido abrasivo detrás de una pared de acero inoxidable.</p>
+                        <div class="flow-spec-list">
+                            <div class="flow-spec-item"><span class="label">Elemento Sensor</span><span class="value">Piezoeléctrico Sellado</span></div>
+                            <div class="flow-spec-item"><span class="label">Temperatura de Fluido</span><span class="value">Hasta 350°C</span></div>
+                            <div class="flow-spec-item"><span class="label">Rango Dinámico</span><span class="value">Medio (requiere vel. mínima)</span></div>
+                            <div class="flow-spec-item"><span class="label">Salida</span><span class="value">4-20 mA</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Matriz de Selección Técnica</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Criterio Técnico</th>
+                                <th style="text-align:center;">E-T-A FC01-CA</th>
+                                <th style="color: var(--accent-blue);">Alt 1: Térmico SRF-I</th>
+                                <th style="color: var(--accent-green); font-weight:700;">Alt 2: Venturi + CXT (Recom.)</th>
+                                <th style="color: var(--accent-blue);">Alt 3: Vortex SFV-I</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Robustez ante caídas/golpes</strong></td>
+                                <td style="text-align:center; color: var(--accent-red);">Baja (Sonda expuesta)</td>
+                                <td style="color: var(--text-primary);">Alta (Cuerpo en línea robusto)</td>
+                                <td style="color: var(--accent-green); font-weight:700;">Excelente (Transmisor remoto)</td>
+                                <td style="color: var(--text-primary);">Alta (Cuerpo en línea)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resistencia a Corrosión (Cloro)</strong></td>
+                                <td style="text-align:center;">Media (Acero 316L)</td>
+                                <td style="color: var(--accent-green);">Excelente (Hastelloy C-276)</td>
+                                <td style="color: var(--accent-green);">Excelente (Diafragma Hastelloy C)</td>
+                                <td style="color: var(--text-primary);">Alta (Acero 316L)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resistencia a Abrasión/Polvo (CKD)</strong></td>
+                                <td style="text-align:center; color: var(--accent-red);">Baja (Aislamiento térmico)</td>
+                                <td style="color: var(--text-secondary);">Media-Alta (Sonda en línea)</td>
+                                <td style="color: var(--accent-green); font-weight:700;">Excelente (Sin sondas internas)</td>
+                                <td style="color: var(--text-primary);">Alta (Sin piezas móviles)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sensibilidad a caudales mínimos</strong></td>
+                                <td style="text-align:center; color: var(--accent-green); font-weight:600;">Excelente</td>
+                                <td style="color: var(--accent-green); font-weight:600;">Excelente</td>
+                                <td>Media-Baja</td>
+                                <td>Media-Baja</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lazo de corriente 4-20 mA</strong></td>
+                                <td style="text-align:center; color: var(--accent-green);">Sí</td>
+                                <td style="color: var(--accent-green);">Sí (Nativo)</td>
+                                <td style="color: var(--accent-green);">Sí (Nativo)</td>
+                                <td style="color: var(--accent-green);">Sí (Nativo)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>Recomendación de Ingeniería SUPCON</h2>
+                <div class="alert-box tip" style="margin-top:20px;">
+                    <div class="alert-title">Estrategia de Suministro Recomendada</div>
+                    1. <strong>Solución Blindada (Prioridad Robustez Física):</strong> Implementar la <strong>Alternativa 2 (Tubo Venturi de 1" + Transmisor de Presión Diferencial SUPCON CXT montado de forma remota)</strong>. Al ubicar la electrónica fuera del paso de personal y no tener sondas térmicas en el flujo, se elimina el riesgo de rotura por caídas y la deriva de medición por acumulación de polvo.  
+                    <br>2. <strong>Solución de Reemplazo Directo (Prioridad Sensibilidad a Caudal Bajo):</strong> Implementar la <strong>Alternativa 1 (Medidor de Masa Térmica In-line SUPCON Serie SRF-I)</strong> con sensor fabricado en **Hastelloy C-276** y revestimiento cerámico para soportar la abrasión del CKD y la corrosión por cloro. Su cuerpo bridadizado de alta resistencia mecánica protegerá al equipo de futuros impactos.
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONTENT 4: MINUTA Y FICHA -->
         <div id="tab-minutes" class="tab-content">
             <div class="minuta-container">
                 <!-- Left: Minutes HTML -->
