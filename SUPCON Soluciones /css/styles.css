@@ -542,6 +542,7 @@ textarea:focus {
 .bg-gray-100 { background-color: var(--bg-main); }
 .bg-gray-200 { background-color: var(--primary-light); }
 .border-gray-300 { border: 1.5px solid var(--border-color); }
+.hidden { display: none !important; }
 
 #close-modal:hover {
   background-color: var(--bg-main);
